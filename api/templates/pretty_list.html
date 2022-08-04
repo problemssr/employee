@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px" class="clearfix">
+            <a href="/pretty/add/" class="btn btn-success" target="_blank">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建靓号
+            </a>
+            <div style="float: right;width: 300px;">
+                <form method="get">
+                    <div class="input-group">
+                        <input name="q" type="text" class="form-control" placeholder="搜素手机号" value="{{ search_data }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">搜素</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    靓号列表
+                </div>
+
+                <!-- Table -->
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>号码</th>
+                        <th>价格</th>
+                        <th>级别</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for pretty in pretty_list %}
+                        <tr>
+                            <td>{{ pretty.id }}</td>
+                            <td>{{ pretty.modile }}</td>
+                            <td>{{ pretty.price }}</td>
+                            <td>{{ pretty.get_level_display }}</td>
+                            <td>{{ pretty.get_status_display }}</td>
+                            <td>
+                                <a href="/pretty/edit/{{ pretty.id }}" class="btn btn-sm btn-primary">编辑</a>
+                                <a href="/pretty/delete/{{ pretty.id }}" class="btn btn-sm btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ul class="pagination">
+            {{ page_string }}
+            {#            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>#}
+            {#            <li><a href="#">1</a></li>#}
+            {#            <li><a href="#">2</a></li>#}
+            {#            <li><a href="#">3</a></li>#}
+            {#            <li><a href="#">4</a></li>#}
+            {#            <li><a href="#">5</a></li>#}
+            {#            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>#}
+        </ul>
+    </div>
+{% endblock %}

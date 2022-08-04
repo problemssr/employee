@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a href="/user/add/" class="btn btn-success" target="_blank">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建用户
+            </a>
+            <a href="/user/modelForm/add/" class="btn btn-success" target="_blank">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建用户ModelForm
+            </a>
+        </div>
+        <div>
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    部门列表
+                </div>
+
+                <!-- Table -->
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>密码</th>
+                        <th>年龄</th>
+                        <th>余额</th>
+                        <th>入职时间</th>
+                        <th>性别</th>
+                        <th>所属部门</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in info %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.password }}</td>
+                            <td>{{ item.age }}</td>
+                            <td>{{ item.account }}</td>
+                            {#                            <td>{{ item.create_time|date:'Y-m-d H:i:s' }}</td>#}
+                            <td>{{ item.create_time|date:'Y-m-d' }}</td>
+                            <td>{{ item.get_sex_display }}</td>
+                            <td>{{ item.depart.title }}</td>
+                            <td>
+                                <a href="/user/edit/?nid={{ item.id }}" class="btn btn-sm btn-primary">编辑</a>
+                                <a href="/user/{{ item.id }}/delete/" class="btn btn-sm btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
+    </div>
+{% endblock %}

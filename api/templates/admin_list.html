@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px" class="clearfix">
+            <a href="/admin/add/" class="btn btn-success" target="_blank">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建管理员
+            </a>
+            <div style="float: right;width: 300px;">
+                <form method="get">
+                    <div class="input-group">
+                        <input name="q" type="text" class="form-control" placeholder="关键字" value="{{ search_data }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">搜素</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    管理员列表
+                </div>
+
+                <!-- Table -->
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>重置密码</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in data %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.username }}</td>
+                            <td>********</td>
+                            <td>
+                                <a href="/admin/reset/{{ item.id }}">重置密码</a>
+                            </td>
+                            <td>
+                                <a href="/admin/edit/{{ item.id }}" class="btn btn-sm btn-primary">编辑</a>
+                                <a href="/admin/delete/{{ item.id }}" class="btn btn-sm btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ul class="pagination">
+            {{ page_string }}
+{#                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>#}
+{#                        <li><a href="#">1</a></li>#}
+{#                        <li><a href="#">2</a></li>#}
+{#                        <li><a href="#">3</a></li>#}
+{#                        <li><a href="#">4</a></li>#}
+{#                        <li><a href="#">5</a></li>#}
+{#                        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>#}
+        </ul>
+    </div>
+{% endblock %}
