@@ -1,28 +1,19 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">批量上传</div>
-            <div class="panel-body">
-                <form method="post" enctype="multipart/form-data" action="/depart/multi/">
-                    {% csrf_token %}
-                    <input type="file" name="Excel" style="margin-bottom: 10px;">
-                    <input type="submit" value="上传" class="btn btn-info btn-sm">
-                </form>
-            </div>
-        </div>
-        <div style="margin-bottom: 10px">
-            <a href="/depart/add/" class="btn btn-success" target="_blank">
+            <div style="margin-bottom: 10px">
+            <a href="/city/add/" class="btn btn-success" target="_blank">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                新建部门
+                新建城市
             </a>
         </div>
+
         <div>
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                    部门列表
+                    城市列表
                 </div>
 
                 <!-- Table -->
@@ -30,19 +21,20 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Logo</th>
                         <th>名称</th>
-                        <th>操作</th>
+                        <th>人口</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for item in depart %}
+                    {% for item in city %}
                         <tr>
                             <th scope="row">{{ item.id }}</th>
-                            <td>{{ item.title }}</td>
                             <td>
-                                <a href="/depart/edit/?nid={{ item.id }}" class="btn btn-sm btn-primary">编辑</a>
-                                <a href="/depart/delete/?nid={{ item.id }}" class="btn btn-sm btn-danger">删除</a>
+                                <img src="/media/{{ item.img }}" alt="失败" style="height: 80px;width: 80px;">
                             </td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.age }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

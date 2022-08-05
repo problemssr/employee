@@ -4,7 +4,8 @@ from api.utils.pagenation import Pagenation
 from api.utils.BootStrap import BootStrapModelForm
 from django import forms
 from django.core.validators import RegexValidator, ValidationError
-from api.utils.form import UserModelForm,PrettyModelForm,PrettyEditModelForm
+from api.utils.form import UserModelForm, PrettyModelForm, PrettyEditModelForm
+
 
 def depart_list(request):
     """ 部门列表 """
@@ -12,10 +13,10 @@ def depart_list(request):
     # 在数据库中获取所有部门信息
     querySet = models.Department.objects.all()
 
-    page_object=Pagenation(request,querySet,page_size=2)
-    context={
+    page_object = Pagenation(request, querySet, page_size=5)
+    context = {
         'depart': page_object.page_queryset,
-        'page_string':page_object.html()
+        'page_string': page_object.html()
     }
 
     return render(request, 'depart_list.html', context)
@@ -59,3 +60,29 @@ def depart_edit(request):
         models.Department.objects.filter(id=nid).update(title=title)
 
         return redirect("/depart/list")
+
+
+def depart_mutli(request):
+    """批量上传（Excel）"""
+    from openpyxl import load_workbook
+
+    # 读取Excel文件内容
+
+    # 1.获取用户上传文件对象
+    file_obj = request.FILES.get("Excel")
+
+    # 2.对象传递给openpyxl,由openpyxl读取文件内容
+    wb = load_workbook(file_obj.name)  # 加载csv
+    sheet = wb.worksheets[0]  # 获取Excel文件对象（第一张表）
+
+    # cell=sheet.cell(1,2)   #cell获取对象
+    # print(cell.value)
+
+    # 3.循环获取每行数据
+    for row in sheet.iter_rows(min_row=1, max_row=10):
+        text = row[1].value
+        exist = models.Department.objects.filter(title=text).exists()
+        if not exist:
+            models.Department.objects.create(title=text)
+
+    return redirect('/depart/list/')

@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from api.views import depart, user, pretty, admin, account, task, order
+from django.views.static import serve
+from django.conf import settings
+from api.views import depart, user, pretty, admin, account, task, order, chart, upload, city
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+
     # 部门管理
     path('depart/list/', depart.depart_list),
     path('depart/add/', depart.depart_add),
@@ -62,5 +65,25 @@ urlpatterns = [
     path('order/delete/', order.order_delete),
     path('order/detail/', order.order_detail),
     path('order/edit/', order.order_edit),
+
+    # 数据统计
+    path('chart/list/', chart.chart_list),
+    path('chart/bar/', chart.chart_bar),
+    path('chart/pie/', chart.chart_pie),
+    path('chart/line/', chart.chart_line),
+    path('chart/highcharts/', chart.highcharts),
+
+    # 上传文件
+    path('upload/list/', upload.upload_list),
+    path('depart/multi/', depart.depart_mutli),  # 批量上传
+    path('upload/form/', upload.upload_form),  # 混合数据（form）
+    path('upload/modelform/', upload.upload_modelform),  # 混合数据（modelform）
+
+    # 城市列表
+    path('city/list/', city.city_list),
+    path('city/add/', city.city_add),
+
+    # 配置media文件夹
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
 
 ]
